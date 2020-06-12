@@ -5,12 +5,169 @@
     <link>/author/stefan-wallentowitz/</link>
       <atom:link href="/author/stefan-wallentowitz/index.xml" rel="self" type="application/rss+xml" />
     <description>Stefan Wallentowitz</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 12 Jun 2020 13:47:41 +0200</lastBuildDate>
     <image>
       <url>/author/stefan-wallentowitz/avatar_hu071ae173a87e147dd7609b997abda6a5_22655_270x270_fill_q90_lanczos_center.jpg</url>
       <title>Stefan Wallentowitz</title>
       <link>/author/stefan-wallentowitz/</link>
     </image>
+    
+    <item>
+      <title>Verilator Waivers</title>
+      <link>/post/20200612-verilator-waivers/</link>
+      <pubDate>Fri, 12 Jun 2020 13:47:41 +0200</pubDate>
+      <guid>/post/20200612-verilator-waivers/</guid>
+      <description>&lt;p&gt;
+&lt;a href=&#34;https://www.veripool.org/wiki/verilator&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Verilator&lt;/a&gt; is a very popular open
+source Verilog to C++ compiler and simulator. One functionality of Verilator
+that is used increasingly is to use its linter functionality, either locally or
+as part of continuous integration. The linter reports problems with your design
+that might lead to issues.&lt;/p&gt;
+&lt;p&gt;With the incredible influx of open source digital designs, I have seen many
+projects adding support for Verilator as an open source alternative to
+proprietary simulators over the last couple of years. But, not surprisingly,
+there are often dozens of warnings emitted by the linter.&lt;/p&gt;
+&lt;p&gt;Linter warnings could be style issues or actual problems. Hence you would prefer
+to use &lt;code&gt;-Wall&lt;/code&gt; or even &lt;code&gt;-Wall -Wpedantic&lt;/code&gt; to be sure your code style is just
+fine. For example the following Verilog code (
+&lt;a href=&#34;https://github.com/verilator/verilator/blob/master/test_regress/t/t_lint_blksync_bad.v&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;from the Verilator
+tests&lt;/a&gt;)
+will lead to a linter warning.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;   always @(posedge clk) begin
+      sync_blk = 1&#39;b1;
+      sync_blk2 = 1&#39;b1;   // Only warn once per block
+      sync_nblk &amp;lt;= 1&#39;b1;
+   end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;%Warning-BLKSEQ: t/t_lint_blksync_bad.v:24:16: Blocking assignments (=) in sequential (flop or latch) block
+                                             : ... Suggest delayed assignments (&amp;lt;=)
+   24 |       sync_blk = 1&#39;b1;
+      |                ^
+                 ... Use &amp;quot;/* verilator lint_off BLKSEQ */&amp;quot; and lint_on around source to disable this message.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The warning is a style warning that can indicate a simulation/synthesis mismatch
+due to races in the simulator. In Verilator it will simulate correctly, but it
+is generally bad style to do it, hence its a linter warning.&lt;/p&gt;
+&lt;p&gt;It can be solved in different ways:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;As suggested by the warning message, the line should be changed to &lt;code&gt;sync_blk &amp;lt;= 1&#39;b1;&lt;/code&gt;. I cannot think of a use case where the original line was intended.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You can disable this style warning in general on the command line with
+&lt;code&gt;-Wno-BLKSEQ&lt;/code&gt;. This has the drawback that it will disable this warning
+globally and you may in future add such a statement accidentally and not
+notice, not nice.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;As the message suggests as an alternative, you can add a comment around the
+statements to disable the warning for those warnings:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;always @(posedge clk) begin
+   /* verilator lint_off BLKSEQ */
+   sync_blk = 1&#39;b1;
+   sync_blk2 = 1&#39;b1;
+   /* verilator lint_on BLKSEQ */
+   sync_nblk &amp;lt;= 1&#39;b1;
+end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is some kind of good solution, in case you and your team have agreed
+that the assignments should not be changed. Probably, you want to add another
+comment why exactly you believe this is a good idea.&lt;/p&gt;
+&lt;p&gt;The drawback of this approach is that it needs you are touching the code to
+silence the Verilator linter. This may be undesirable, especially if your
+tool zoo is large..&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;waiver-statements&#34;&gt;Waiver statements&lt;/h2&gt;
+&lt;p&gt;At last RISC-V workshop I had a breakfast discussion with my fellow 
+&lt;a href=&#34;https://fossi-foundation.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FOSSi
+Foundation&lt;/a&gt; director 
+&lt;a href=&#34;https://twitter.com/MrImphil&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Philipp
+Wagner&lt;/a&gt; who works at
+
+&lt;a href=&#34;https://lowrisc.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;lowRISC&lt;/a&gt;. He suggested there should be better alternatives
+to solve this issue. The toy example above obviously doesn&amp;rsquo;t require it, but
+there are other warnings and situations when you just want to silence particular
+warnings that you have carefully checked and concluded they can be tolerated:
+For example unused variable warnings or assignment widths can indicate an issue,
+but are often the result of how your design is organized (such as defines and
+paramters).&lt;/p&gt;
+&lt;p&gt;The solution to this is to use a more fine-granular, but non-invasive approach:
+&lt;em&gt;waivers&lt;/em&gt;. A waiver tells a tools that you are aware of a warning, but you are
+okay with it. It will thereby suppress warnings that you want to tolerate. It
+makes it easier to detect newly introduced errors and you can enter the ideal
+world of &lt;code&gt;-Wall -Wpedantic&lt;/code&gt; while suppressing known warnings.&lt;/p&gt;
+&lt;p&gt;So, on my way back from San Jose I started the work on waivers in Verilator,
+which are part of Verilator since version 4.028. In Verilator you can add
+configuration files (typically ending in &lt;code&gt;.vlt&lt;/code&gt;) that define configuration
+settings from a file. What was initially added is the very useful equivalent of
+the inline comment from above:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;`verilator_config
+
+lint_off -rule BLKSEQ -file &amp;quot;t/t_lint_blksync_bad.v&amp;quot; -lines 24-25
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Just add this file to the build and the warning is waived. This waiver is
+already very nice, but there are certain warnings where you want to make sure
+that only a particular instance of them is waived. The &lt;code&gt;-match&lt;/code&gt; flag sets a
+known message (with wildcards to keep things simple). If the warning changes,
+you will have to revisit it. The first adopter of this syntax is the LowRISC
+team for their 
+&lt;a href=&#34;https://github.com/lowRISC/ibex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ibex&lt;/a&gt; core. There is a
+
+&lt;a href=&#34;https://github.com/lowRISC/ibex/blob/master/lint/verilator_waiver.vlt&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;verilator config
+file&lt;/a&gt;
+that defines the waivers, for example as entire class of warnings (&lt;code&gt;lint_off -rule PINCONNECTEMPTY&lt;/code&gt;) or with particular messages that is suppressed
+(&lt;code&gt;lint_off -rule WIDTH -file &amp;quot;*/rtl/ibex_core_tracing.sv&amp;quot; -match &amp;quot;*&#39;RV32M&#39;*&amp;quot;&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;I believe this is a very powerful feature of Verilator and I strongly encourage
+projects to use waiver files in combination with &lt;code&gt;-Wall -Wpedantic&lt;/code&gt;. Even if you
+use other simulation or synthesis tools, using Verilator as linter will increase
+code quality significantly, in my opinion, which for example is crucial to the
+success of open source silicon (but not limited to it, I hope ;).&lt;/p&gt;
+&lt;h2 id=&#34;auto-generate-waiver-file&#34;&gt;Auto-generate waiver file&lt;/h2&gt;
+&lt;p&gt;I have recently looked at many open source designs and found that Verilator is
+supported out-of-the-box by nearly all of them, but too often I find &lt;code&gt;-Wno-lint&lt;/code&gt;
+or the rule-based warning suppressions. I wanted to approach the projects and
+propose them to use waiver files. But I felt it would be nicer to open a PR
+instead that removes the &lt;code&gt;-Wno-lint&lt;/code&gt; and either solve the issues (oh, boy) or
+add an appropriate waiver file with the invitation to review and resolve it. But
+for that my bandwidth is just too limited. I felt it was better invested in an
+extension to Verilator that automates this process. Hence, since Verilator 4.036
+there is a new flag &lt;code&gt;--waiver-output &amp;lt;filename&amp;gt;&lt;/code&gt; that emits a template for the
+waiver file with all warnings emitted.&lt;/p&gt;
+&lt;p&gt;For example you can find the 
+&lt;a href=&#34;https://github.com/verilator/verilator/blob/master/test_regress/t/t_waiveroutput.v&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;regression test&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;module t_waiveroutput;
+
+   reg width_warn = 2&#39;b11;
+endmodule
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Running Verilator as linter or normally will give us a width warning and in my
+opinion should error (&lt;code&gt;-Wall -Wpedantic&lt;/code&gt;). Instead of resisting to be pedantic,
+lets get the 
+&lt;a href=&#34;https://github.com/verilator/verilator/blob/master/test_regress/t/t_waiveroutput.out&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;waiver
+file&lt;/a&gt;
+with &lt;code&gt;--waiver-output&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// DESCRIPTION: Verilator output: Waivers generated with --waiver-output
+
+`verilator_config
+
+// Below you find suggested waivers. You have three options:
+//   1. Fix the reason for the linter warning
+//   2. Keep the waiver permanently if you are sure this is okay
+//   3. Keep the waiver temporarily to suppress the output
+
+// lint_off -rule WIDTH -file &amp;quot;*t/t_waiveroutput.v&amp;quot; -match &amp;quot;Operator ASSIGN expects 1 bits on the Assign RHS, but Assign RHS&#39;s CONST &#39;2&#39;h3&#39; generates 2 bits.&amp;quot;
+
+// lint_off -rule UNUSED -file &amp;quot;*t/t_waiveroutput.v&amp;quot; -match &amp;quot;Signal is not used: &#39;width_warn&#39;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The idea is now that you and your team review the individual warnings and either
+remove the issue, or un-comment the line and add a comment about why this is a
+good idea to waive.&lt;/p&gt;
+&lt;p&gt;In my opinion this is an excellent starting point to tackle your code quality,
+have a solid linter flow. I hope it helps you!&lt;/p&gt;
+&lt;p&gt;Next, I will start creating PR with waiver files with many TODOs in them :)&lt;/p&gt;
+</description>
+    </item>
     
   </channel>
 </rss>
