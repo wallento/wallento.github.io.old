@@ -90,9 +90,11 @@ It can be solved in different ways:
    that the assignments should not be changed. Probably, you want to add another
    comment why exactly you believe this is a good idea.
 
-   The drawback of this approach is that it needs you are touching the code to
-   silence the Verilator linter. This may be undesirable, especially if your
-   tool zoo is large..
+   An advantage is that the issue and its solution are directly linked, which is
+   a good idea in general. The drawback of this approach is that it needs you
+   are touching the code to silence the Verilator linter, especially if you are
+   using third-party code. This may be undesirable, especially if your tool zoo
+   is large.
 
 ## Waiver statements
 
@@ -194,3 +196,15 @@ In my opinion this is an excellent starting point to tackle your code quality,
 have a solid linter flow. I hope it helps you!
 
 Next, I will start creating PR with waiver files with many TODOs in them :)
+
+## Update: Waiver vs. pragma-style
+
+In the post I have missed to discuss that there is a good reason to use the
+inline comments/pragmas versus waiver files. It is certainly a good idea to have
+the solution visually next to the problem and this approach is widely used in
+teams that use Verilator as one of their main tools. Waivers are especially
+useful with third-party code. Overall its also a matter of preference and
+waivers are probably preferable when you start using Verilator in a large project.
+
+But, summarized: There is no reason anymore to not use Verilator as Linter in
+your project!
