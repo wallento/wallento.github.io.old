@@ -88,8 +88,8 @@ show_related = {docs = true, page = false, post = true, project = true, publicat
 ############################
 
 # Enter contact details (optional). To hide a field, clear it to "".
-email = "stefan.wallentowitz@hm.edu"
-phone = "089 1265-3739"
+email = "martin.hobelsberger@hm.edu"
+phone = "089 1265-3779"
 
 # Address
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
@@ -104,7 +104,7 @@ coordinates = {latitude = "48.154182", longitude = "11.557143"}
 
 # Office hours
 # A list of your office hours. To remove, set to an empty list `[]`.
-office_hours = ["Thursday 10:00 to 11:00"]
+office_hours = ["Registration by e-mail"]
 
 
 # Contact links
@@ -120,7 +120,7 @@ contact_links = [
 sharing_image = ""
 
 # Twitter username (without @). Used when a visitor shares your site on Twitter.
-twitter = "wallento"
+twitter = ""
 
 ############################
 ## Regional Settings
