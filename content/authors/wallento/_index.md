@@ -1,16 +1,16 @@
 ---
 # Display name
-title: Stefan Wallentowitz
+title: Martin Hobelsberger
 
 # Username (this should match the folder name)
 authors:
-- wallento
+- mhobelsb
 
 # Is this the primary user of the site?
 superuser: true
 
 # Role/position
-role: Professor of Computer Engineering
+role: Professor of Embedded Software Systems
 
 # Organizations/Affiliations
 organizations:
@@ -18,25 +18,22 @@ organizations:
   url: ""
 
 # Short bio (displayed in user profile at end of posts)
-bio: I am a professor of computer engineering and computer architecture, very active in the open source silicon community.
+bio: I am a professor of embedded software systems and entrepreneurship.
 
 interests:
 - Computer Engineering
-- Computer Architecture, RISC-V
-- Operating Systems and Virtualization
-- Embedded Systems Security
+- Operating Systems
+- IoT
+- Data Science 
 
 education:
   courses:
-  - course: Dr.-Ing. in Computer Architecture
-    institution: Technical University Munich
-    year: 2018
-  - course: Dipl.-Wirt.-Ing. in Business Administration and Economics
-    institution: RWTH Aachen University
-    year: 2010
-  - course: Dipl-Ing. in Computer Engineering
-    institution: RWTH Aachen University
-    year: 2008
+  - course: Dr.-Ing. in Software Engineering
+    institution: Otto von Guericke University Magdeburg
+    year: 2011
+  - course: Dipl.-Inf. (FH) in Technical Computer Science
+    institution: Ostbayerische Technische Hochschule Regensburg
+    year: 2007
 
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/page-builder/#icons
@@ -46,15 +43,15 @@ social:
 - icon: envelope
   icon_pack: fas
   link: '#contact'  # For a direct email link, use "mailto:test@example.org".
-- icon: twitter
-  icon_pack: fab
-  link: https://twitter.com/wallento
-- icon: google-scholar
-  icon_pack: ai
-  link: https://scholar.google.co.uk/citations?user=cut-qKsAAAAJ
+# - icon: twitter
+#  icon_pack: fab
+#  link: https://twitter.com/wallento
+# - icon: google-scholar
+#  icon_pack: ai
+#  link: https://scholar.google.co.uk/citations?user=cut-qKsAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/wallento
+  link: https://github.com/mhobelsb
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -71,4 +68,4 @@ user_groups:
 - Visitors
 ---
 
-Stefan Wallentowitz is a professor of computer engineering and computer architecture.
+Martin Hobelsberger is a professor of embedded software systems and entrepreneurship.
