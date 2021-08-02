@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SHK | Stefan Wallentowitz</title>
+    <link>/category/shk/</link>
+      <atom:link href="/category/shk/index.xml" rel="self" type="application/rss+xml" />
+    <description>SHK</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 30 Jul 2021 10:00:00 +0200</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url>
+      <title>SHK</title>
+      <link>/category/shk/</link>
+    </image>
+    
+    <item>
+      <title>Studentische Hilfskraft &#39;Laborbuch mit Jupyterlab&#39;</title>
+      <link>/jobs/20210730-jupyter/</link>
+      <pubDate>Fri, 30 Jul 2021 10:00:00 +0200</pubDate>
+      <guid>/jobs/20210730-jupyter/</guid>
+      <description>&lt;p&gt;Im Rahmen der Veranstaltung &amp;ldquo;Technische Informatik 1&amp;rdquo; müssen die Studierenden
+ein Laborbuch führen in dem Sie die Vorbereitung und Durchführung der
+Praktikumsversuche dokumentieren. Dieses Laborbuch soll in Zukunft digital
+geführt werden.&lt;/p&gt;
+&lt;p&gt;Als Kandidat haben wir dafür Jupyterlab ausgewählt und wollen es im kommenden
+Semester testen. Dafür suchen wir Unterstützung bei der technischen Umsetzung
+und Adaption.&lt;/p&gt;
+&lt;p&gt;Sie sollten mitbringen:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Grundlegende Kenntnisse in Webtechnologien (JavaScript, HTML, CSS)&lt;/li&gt;
+&lt;li&gt;Grundlegende Kenntnisse in Python&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Informationen zur Vergütung finden Sie hier: 
+&lt;a href=&#34;https://w3-mediapool.hm.edu/mediapool/media/dachmarke/dm_lokal/ha1_personal/dokumente_83/Verguetungstabelle_SHK_180315.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Vergütungstabelle für studentische
+Hilfskräfte&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bei Interesse und Fragen wenden Sie sich bitte per E-Mail an mich:
+
+&lt;a href=&#34;mailto:stefan.wallentowitz@hm.edu&#34;&gt;stefan.wallentowitz@hm.edu&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Studentische Hilfskraft &#39;Visual Studio Code Plugin&#39;</title>
+      <link>/jobs/20210730-vscode/</link>
+      <pubDate>Fri, 30 Jul 2021 10:00:00 +0200</pubDate>
+      <guid>/jobs/20210730-vscode/</guid>
+      <description>&lt;p&gt;Für unsere Lehrveranstaltung &amp;ldquo;IT-Systeme Grundlagen&amp;rdquo; suchen wir Unterstützung
+bei der Weiterentwicklung des 
+&lt;a href=&#34;https://marketplace.visualstudio.com/items?itemName=hm.riscv-venus&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Visual Studio Code Plugins für
+RISC-V&lt;/a&gt;. Im
+Vordergrund steht dabei die technische Weiterentwicklung des Simulators für die
+Interaktion mit Betriebssystemen und der Außenwelt, sowie die Erstellung von
+Visualisierungen und Demos.&lt;/p&gt;
+&lt;p&gt;Sie sollten mitbringen:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Grundlegende Kenntnisse in TypeScript, JavaScript, HTML, CSS&lt;/li&gt;
+&lt;li&gt;Ein rudimentäres Verständnis der IT-Systeme&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Informationen zur Vergütung finden Sie hier: 
+&lt;a href=&#34;https://w3-mediapool.hm.edu/mediapool/media/dachmarke/dm_lokal/ha1_personal/dokumente_83/Verguetungstabelle_SHK_180315.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Vergütungstabelle für studentische
+Hilfskräfte&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bei Interesse und Fragen wenden Sie sich bitte per E-Mail an mich:
+
+&lt;a href=&#34;mailto:stefan.wallentowitz@hm.edu&#34;&gt;stefan.wallentowitz@hm.edu&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
